@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 function Hero() {
   return (
-    <div className="w-full min-h-screen mt-20 flex flex-col">
+    <div className="w-full h-auto mt-20 flex flex-col">
       <Image
         width={500}
         height={500}

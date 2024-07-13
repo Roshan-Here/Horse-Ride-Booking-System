@@ -1,6 +1,8 @@
-const { configureStore } = require("@reduxjs/toolkit");
-import HorseReducer from './slice'
+import { configureStore } from "@reduxjs/toolkit";
+import horseReducer from './slice';
 
-export const store = configureStore({
-    reducer:HorseReducer
-})
+const store = configureStore({
+  reducer: horseReducer
+});
+
+export default store

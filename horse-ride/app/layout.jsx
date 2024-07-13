@@ -1,6 +1,6 @@
 // app/layout.jsx
 import "./globals.css";
-import { Providers } from "./redux/Provider";
+import { Providers } from './redux/Provider';
 
 export const metadata = {
   title: "Book Horse Riding Holiday",

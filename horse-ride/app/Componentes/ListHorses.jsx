@@ -1,13 +1,17 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { karma } from "./fonts/font";
+import { karma,hony } from "./fonts/font";
 import Image from "next/image";
+import Link from "next/link";
 import HorseData from "./Utils/HorseData";
 
 function ListHorses() {
   return (
     <div className="w-full min-h-screen flex flex-col ">
-      <p id="avhorse" className={`${karma.className} text-center mt-6 text-black text-4xl`}>
+      <p
+        id="avhorse"
+        className={`${karma.className} text-center mt-6 text-black text-4xl`}
+      >
         List of available Horses
       </p>
       <div className="p-10 flex flex-row justify-between">
@@ -29,8 +33,10 @@ function ListHorses() {
       </div>
       <div className="ml-6 mr-6 overflow-x-auto w-full flex flex-row gap-4 justify-center items-center no-scroolbar">
         {HorseData.map((item, index) => (
-          <>
-            <div key={index} className="flex flex-col w-60 h-80 border-2 border-[#9F7F7F] hover:shadow-lg hover:shadow-[#212636] flex-shrink-0">
+            <div
+              key={index}
+              className="flex flex-col w-60 h-80 border-2 border-[#9F7F7F] hover:shadow-lg hover:shadow-[#212636] flex-shrink-0"
+            >
               <div className="flex flex-col w-full">
                 <Image
                   className="object-fill w-full h-60 border-b border-black"
@@ -40,8 +46,8 @@ function ListHorses() {
                   width={500}
                 />
                 <div className="ml-2 mr-2 flex flex-row justify-between items-center">
-                  <p className="mt-2">{item.name}</p>
-                  <a href="">
+                  <p className={`${hony.className} mt-2`}>{item.name}</p>
+                  <Link href={`/book/${item.name}`}>
                     <motion.button
                       initial={{
                         rotate: "0deg",
@@ -53,11 +59,10 @@ function ListHorses() {
                     >
                       Book Now
                     </motion.button>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
-          </>
         ))}
       </div>
     </div>

@@ -8,18 +8,22 @@ function Header() {
   return (
     <div className="absolute inset-x-0 top-0 w-full flex flex-row justify-between shadow-lg shadow-gray-400 p-4 border-2 border-b border-[#9F7F7F] bg-white z-20">
       <div className="ml-4 flex flex-row justify-between">
+        <a href="/">
         <Image
           width={500}
           height={500}
           className="w-32 h-10"
           src="/Logo.png"
           alt="BookHorseRidingLogo"
-        />
+          />
+          </a>
+          <a href="/">
         <p
           className={`${lexend.className} font-bold text-[#802b2b] mt-1 hidden md:block`}
-        >
+          >
           Book Horse Riding Holiday
         </p>
+            </a>
       </div>
       <div className="mr-6">
         <a href="#avhorse">

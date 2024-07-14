@@ -14,8 +14,8 @@ function Confirmation({ searchParams }) {
     if (searchParams.name === undefined) {
       setTimeout(() => {
         setNotFound(true);
+        router.push("/");
       }, 3000);
-      router.push("/");
     }
   }, [searchParams, router]);
 

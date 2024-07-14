@@ -26,7 +26,7 @@ function Header() {
             </a>
       </div>
       <div className="mr-6">
-        <a href="#avhorse">
+        <a href="/book">
           <motion.button
             initial={{
               rotate: "0deg",

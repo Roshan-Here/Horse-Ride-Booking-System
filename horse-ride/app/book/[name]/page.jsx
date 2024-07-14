@@ -7,6 +7,7 @@ import HorseData from "@/app/Componentes/Utils/HorseData";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
+import Footer from './../../Componentes/Footer';
 
 function BookHorse({ params }) {
   //   console.log(params);
@@ -17,12 +18,14 @@ function BookHorse({ params }) {
   let isDataEmpty = true;
 
   if (isArrayValid) {
-    retrievedData = HorseReduxData.filter(item => item.horse_name === params.name);
+    retrievedData = HorseReduxData.filter(
+      (item) => item.horse_name === params.name
+    );
     isDataEmpty = retrievedData.length === 0;
 
-    console.log('HorseReduxData:', HorseReduxData);
-    console.log('retrievedData:', retrievedData);
-    console.log('isDataEmpty:', isDataEmpty);
+    console.log("HorseReduxData:", HorseReduxData);
+    console.log("retrievedData:", retrievedData);
+    console.log("isDataEmpty:", isDataEmpty);
   }
   // console.log(HorseReduxData);
   const [booked, setbooked] = useState(false);
@@ -40,7 +43,7 @@ function BookHorse({ params }) {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen w-full bg-slate-100 no-scrollbar">
+    <div className="flex flex-col h-auto w-full bg-slate-100 no-scrollbar">
       <Header />
       <div className="mt-20 w-full flex flex-col justify-center">
         <p
@@ -101,7 +104,7 @@ function BookHorse({ params }) {
           </a>
         </div>
         <div className="mt-3 ml-4 mr-4">
-          {isArrayValid && !isDataEmpty &&(
+          {isArrayValid && !isDataEmpty && (
             <table
               className={`table-auto w-full text-left border-2 border-black text-red-950`}
             >
@@ -114,17 +117,18 @@ function BookHorse({ params }) {
               </thead>
               <tbody className="justify-center">
                 {retrievedData.map((item, idx) => (
-                      <tr key={idx}>
-                        <td className="px-6">{idx + 1}</td>
-                        <td>{item.date}</td>
-                        <td>{item.slot.join(', ')}</td>
-                      </tr>
-                    ))}
+                  <tr key={idx}>
+                    <td className="px-6">{idx + 1}</td>
+                    <td>{DateCorrecter(item.date)}</td>
+                    <td>{item.slot.join(", ")}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           )}
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }

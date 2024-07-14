@@ -10,20 +10,20 @@ const slice = createSlice({
   reducers: {
     updateslot: (state, action) => {
       const { horse_name, date, slot } = action.payload;
-      const booking = state.bookhorse.find(
-        (item) => item.date === date && item.horse_name === horse_name
-      );
-      if (booking) {
-        console.log("Updating existing booking", booking);
-        booking.slot = [...new Set([...booking.slot, ...slot])];
+
+      
+      let horseEntry = state.bookhorse.find(item => item.horse_name === horse_name);
+      
+      if (horseEntry) {
+        let dateEntry = horseEntry.dates.find(item => item.date === date);
+        
+        if (dateEntry) {
+          dateEntry.slot = [...new Set([...dateEntry.slot, ...slot])];
+        } else {
+          horseEntry.dates.push({ date, slot });
+        }
       } else {
-        const newdata = {
-          horse_name: horse_name,
-          date: date,
-          slot: slot,
-        };
-        console.log("Adding new booking", newdata);
-        state.bookhorse.push(newdata);
+        state.bookhorse.push({ horse_name, dates: [{ date, slot }] });
       }
     },
   },

@@ -1,11 +1,11 @@
-"use client";
+'use client'
 
 import React, { useEffect, useState } from "react";
 import Header from "@/app/Componentes/Header";
 import { hony, lexend } from "../Componentes/fonts/font";
 import HorseData from "../Componentes/Utils/HorseData";
-import { useDispatch } from "react-redux";
 import { updateslot } from "../redux/slice";
+import { dispatch } from "../redux/store";
 
 const generateTimeSlots = () => {
   const timeSlots = [];
@@ -23,14 +23,13 @@ const isWeekdayOrSaturday = (date) => {
 };
 
 function Book() {
-  const distpatch = useDispatch()
+
   const [selectedHorse, setselectedHorse] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [username, setusername] = useState("");
   const [email, setemail] = useState("");
-  console.log({ selectedHorse, date, time });
-
+  // console.log({ selectedHorse, date, time });
   const timeSlots = generateTimeSlots();
 
 
@@ -41,7 +40,7 @@ function Book() {
       'date':date,
       'slot':[time]
     }
-    distpatch(updateslot(formData))
+    dispatch(updateslot(formData))
   }
   // const router = useRouter();
   // useEffect(() => {

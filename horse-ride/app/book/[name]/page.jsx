@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import Header from "@/app/Componentes/Header";
 import { hony } from "@/app/Componentes/fonts/font";
@@ -8,9 +9,22 @@ import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 
 function BookHorse({ params }) {
-//   console.log(params);
-  const HorseReduxData = useSelector((state) => state.bookhorse);
-  console.log(HorseReduxData);
+  //   console.log(params);
+  const HorseReduxData = useSelector((state) => state.bookhorse.bookhorse);
+
+  let isArrayValid = Array.isArray(HorseReduxData);
+  let retrievedData = [];
+  let isDataEmpty = true;
+
+  if (isArrayValid) {
+    retrievedData = HorseReduxData.filter(item => item.horse_name === params.name);
+    isDataEmpty = retrievedData.length === 0;
+
+    console.log('HorseReduxData:', HorseReduxData);
+    console.log('retrievedData:', retrievedData);
+    console.log('isDataEmpty:', isDataEmpty);
+  }
+  // console.log(HorseReduxData);
   const [booked, setbooked] = useState(false);
   const [CurrentHorseData, setCurrentHorseData] = useState({});
 
@@ -35,7 +49,7 @@ function BookHorse({ params }) {
           Ride with {CurrentHorseData.name}
         </p>
         <div className="mt-3 flex flex-col justify-center items-center">
-        {CurrentHorseData.image_link ? (
+          {CurrentHorseData.image_link ? (
             <Image
               height={500}
               width={500}
@@ -66,7 +80,7 @@ function BookHorse({ params }) {
         </p>
         <div
           className={`${
-            HorseReduxData ? "hidden" : ""
+            !isDataEmpty ? "hidden" : ""
           } mt-4 flex flex-row justify-center items-center gap-6`}
         >
           <p className="text-center">
@@ -87,30 +101,28 @@ function BookHorse({ params }) {
           </a>
         </div>
         <div className="mt-3 ml-4 mr-4">
-          <table
-            className={`${
-              HorseReduxData ? "" : "hidden"
-            } table-auto w-full text-left border-2 border-black text-red-950`}
-          >
-            <thead className="font-bold border-2 border-b border-black">
-              <tr>
-                <th className="px-6">No</th>
-                <th>Date</th>
-                <th>Slot</th>
-              </tr>
-            </thead>
-            {/* <tbody className="justify-center">
-              {HorseReduxData
-                ? HorseReduxData.map((item, idx) => (
-                    <tr key={idx}>
-                      <td className="px-6">{idx + 1}</td>
-                      <td>{item.date}</td>
-                      <td>{item.slot}</td>
-                    </tr>
-                  ))
-                : ""}
-            </tbody> */}
-          </table>
+          {isArrayValid && !isDataEmpty &&(
+            <table
+              className={`table-auto w-full text-left border-2 border-black text-red-950`}
+            >
+              <thead className="font-bold border-2 border-b border-black">
+                <tr>
+                  <th className="px-6">No</th>
+                  <th>Date</th>
+                  <th>Slot</th>
+                </tr>
+              </thead>
+              <tbody className="justify-center">
+                {retrievedData.map((item, idx) => (
+                      <tr key={idx}>
+                        <td className="px-6">{idx + 1}</td>
+                        <td>{item.date}</td>
+                        <td>{item.slot.join(', ')}</td>
+                      </tr>
+                    ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>

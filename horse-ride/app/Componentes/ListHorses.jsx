@@ -19,6 +19,8 @@ function ListHorses() {
           <p className="text-4xl text-black">4</p>
           <p className="text-lg text-[#9c3a3a]">Horses available</p>
         </div>
+        <a href="/book">
+
         <motion.button
           initial={{
             rotate: "0deg",
@@ -30,6 +32,7 @@ function ListHorses() {
         >
           Book Now
         </motion.button>
+        </a>
       </div>
       <div className="ml-6 mr-6 overflow-x-auto w-full flex flex-row gap-4 justify-center items-center no-scroolbar">
         {HorseData.map((item, index) => (

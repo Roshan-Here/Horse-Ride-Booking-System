@@ -11,19 +11,16 @@ const slice = createSlice({
     updateslot: (state, action) => {
       const { horse_name, date, slot } = action.payload;
 
-      
-      let horseEntry = state.bookhorse.find(item => item.horse_name === horse_name);
-      
+      // Find the horse entry
+      let horseEntry = state.bookhorse.find(item => item.horse_name === horse_name && item.date === date);
+
       if (horseEntry) {
-        let dateEntry = horseEntry.dates.find(item => item.date === date);
-        
-        if (dateEntry) {
-          dateEntry.slot = [...new Set([...dateEntry.slot, ...slot])];
-        } else {
-          horseEntry.dates.push({ date, slot });
-        }
+        // If the horse and date entry exist, update the slot
+        horseEntry.slot = [...new Set([...horseEntry.slot, ...slot])];
       } else {
-        state.bookhorse.push({ horse_name, dates: [{ date, slot }] });
+        // If the entry doesn't exist, add a new entry
+        console.log('Data is Entering...');
+        state.bookhorse.push({ horse_name, date, slot });
       }
     },
   },

@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Header from "@/app/Componentes/Header";
 import { hony, lexend } from "../Componentes/fonts/font";
 import HorseData from "../Componentes/Utils/HorseData";
 import { updateslot } from "../redux/slice";
-import { dispatch } from "../redux/store";
 import Footer from "./../Componentes/Footer";
+import { useDispatch } from "react-redux";
 import Link from "next/link";
 
 const generateTimeSlots = () => {
@@ -25,40 +25,41 @@ const isWeekdayOrSaturday = (date) => {
 };
 
 function Book() {
-  const [selectedHorse, setselectedHorse] = useState("");
+  const dispatch = useDispatch();
+  const [selectedHorse, setSelectedHorse] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const [phno, setphno] = useState("");
-  const [username, setusername] = useState("");
-  const [email, setemail] = useState("");
-  // console.log({ selectedHorse, date, time });
+  const [phno, setPhno] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false); // State variable to control navigation
+
   const timeSlots = generateTimeSlots();
 
-  const isFormValid =
-    selectedHorse && date && time && username && username && email;
+  const isFormValid = selectedHorse && date && time && username && email;
 
-  const HandleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!isFormValid) {
       alert("Please fill in all required fields.");
       return;
+    } else {
+      const formData = {
+        horse_name: selectedHorse,
+        date: date,
+        slot: [time],
+      };
+      console.log(formData);
+      dispatch(updateslot(formData));
+      setIsSubmitted(true); // Set the state to navigate to the confirmation page
     }
-    const formData = {
-      horse_name: selectedHorse,
-      date: date,
-      slot: [time],
-    };
-    dispatch(updateslot(formData));
   };
-  // const router = useRouter();
-  // useEffect(() => {
-  //   router.push("/");
-  // }, []);
+
   return (
     <div className="w-full min-h-screen">
       <Header />
       <div className="mt-24 flex flex-col justify-center">
-        <div className="ml-8 mr-8 border-2  border-[#ca7272] h-[45rem] shadow-lg shadow-[#628196] rounded-3xl">
+        <div className="ml-8 mr-8 border-2 border-[#ca7272] h-[48rem] shadow-lg shadow-[#628196] rounded-3xl">
           <p
             className={`${hony.className} mt-4 flex flex-row justify-center items-center text-center text-3xl`}
           >
@@ -66,8 +67,7 @@ function Book() {
           </p>
           <div className="flex flex-col justify-center">
             <form
-              onSubmit={HandleSubmit}
-              action=""
+              onSubmit={handleSubmit}
               className={`${lexend.className} mt-8 md:mt-12 ml-8 mr-8 flex flex-col justify-center border-2 border-[#8d3c3c] rounded-xl`}
             >
               <label
@@ -80,7 +80,7 @@ function Book() {
                   className="border-b border-black text-base rounded-lg w-80 md:w-full"
                   required
                   value={username}
-                  onChange={(e) => setusername(e.target.value)}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </label>
               <label
@@ -93,7 +93,7 @@ function Book() {
                   required
                   className="border-b border-black text-base rounded-lg w-80 md:w-full"
                   value={email}
-                  onChange={(e) => setemail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </label>
               <label
@@ -103,8 +103,9 @@ function Book() {
                 Phone Number
                 <input
                   type="tel"
-                  required 
-                  onChange={(e) => setphno(e.target.value)}
+                  required
+                  value={phno}
+                  onChange={(e) => setPhno(e.target.value)}
                   className="border-b border-black text-base rounded-lg w-80 md:w-full"
                 />
               </label>
@@ -116,7 +117,7 @@ function Book() {
                 <select
                   className="border-b border-black text-base rounded-lg w-80 md:w-full"
                   required
-                  onChange={(e) => setselectedHorse(e.target.value)}
+                  onChange={(e) => setSelectedHorse(e.target.value)}
                 >
                   <option value="">Select a horse </option>
                   {HorseData.map((item, idx) => (
@@ -143,7 +144,7 @@ function Book() {
               </label>
               <label
                 htmlFor=""
-                className="w-full text-lg flex flex-col justify-center items-center md:items-start  h-32"
+                className="w-full text-lg flex flex-col justify-center items-center md:items-start h-32"
               >
                 Choose Time Slot
                 <select
@@ -168,39 +169,39 @@ function Book() {
                 )}
               </label>
               <div className="flex justify-center items-center">
-                {isFormValid ? (
-                  <Link
-                    href={{
-                      pathname: "/Confirmation",
-                      query: {
-                        name: username,
-                        email:email,
-                        phno:phno,
-                        horse: selectedHorse,
-                        date: date,
-                        slot: time,
-                      },
-                    }}
-                  >
-                    <button
-                      type="submit"
-                      className="w-32 h-10 border-2 rounded-xl font-bold bg-[#616bc2] text-black hover:bg-[#31c462] hover:text-white"
-                    >
-                      Proceed
-                    </button>
-                  </Link>
-                ) : (
-                  <button
-                    type="submit"
-                    className="w-32 h-10 border-2 rounded-xl font-bold bg-gray-400 text-white cursor-not-allowed"
-                    disabled
-                  >
-                    Proceed
-                  </button>
-                )}
+                <button
+                  type="submit"
+                  className={`w-32 h-10 border-2 rounded-xl font-bold ${
+                    isFormValid
+                      ? "bg-[#616bc2] text-black hover:bg-[#31c462] hover:text-white"
+                      : "bg-gray-400 text-white cursor-not-allowed"
+                  }`}
+                  disabled={!isFormValid}
+                >
+                  Proceed
+                </button>
               </div>
             </form>
           </div>
+            {isSubmitted && (
+              <Link
+              className="mt-3 flex flex-row justify-center items-center bg-[#97d13a] mr-6 text-center ml-8 w-96 h-10 border-2 border-[#e99]"
+                href={{
+                  pathname: "/Confirmation",
+                  query: {
+                    name: username,
+                    email: email,
+                    phno: phno,
+                    horse: selectedHorse,
+                    date: date,
+                    slot: time,
+                  },
+                }}
+                replace
+              >
+                Go to Confirmation
+              </Link>
+            )}
         </div>
       </div>
       <Footer />

@@ -10,6 +10,7 @@ function Hero() {
       <Image
         width={500}
         height={500}
+        priority={true}
         className="relative object-fill w-full h-[24rem]"
         alt="Hero horse image"
         src="/static/horse.webp"
